@@ -47,7 +47,7 @@ Obj/
 List/
 *.dep
 settings/
-MDK-ARM/build/
+build/
 *.build_log.htm
 *.uvgui.*
 *.uvopt
