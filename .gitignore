@@ -42,11 +42,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-EWARM/Demo/Exe/
-EWARM/Demo/Obj/
-EWARM/Demo/List/
+Exe/
+Obj/
+List/
 *.dep
-EWARM/settings/
+settings/
 MDK-ARM/build/
 *.build_log.htm
 *.uvgui.*
