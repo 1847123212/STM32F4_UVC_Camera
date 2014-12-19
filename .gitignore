@@ -41,3 +41,13 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+EWARM/Demo/Exe/
+EWARM/Demo/Obj/
+EWARM/Demo/List/
+*.dep
+EWARM/settings/
+MDK-ARM/build/
+*.build_log.htm
+*.uvgui.*
+*.uvopt

@@ -27,6 +27,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_def.h"
 
+#define USB_LED_SETUP_ON()		STM_EVAL_LEDOn(LED4)
+#define USB_ALTSET_LED_ON()		STM_EVAL_LEDOn(LED5)
+#define USB_ALTSET_LED_OFF()	STM_EVAL_LEDOff(LED5)
+#define USB_DATAIN_LED_TOGGLE()	STM_EVAL_LEDToggle(LED6)
+
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
   * @{
   */

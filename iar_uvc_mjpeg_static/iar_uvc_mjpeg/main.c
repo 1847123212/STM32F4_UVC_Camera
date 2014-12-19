@@ -67,11 +67,6 @@ int main(void)
     
     
   }
-  
-  while(1){
-    asm("nop");
-  }
-  
 }
 
 
@@ -84,7 +79,6 @@ void draw_circle(int Hcenter, int Vcenter, int radius,uint8_t color)
     int yChange = 0;
     int radiusError = 0;
     int i;
-    int p = 3 - 2 * radius;
 
     while (x >= y)
     {

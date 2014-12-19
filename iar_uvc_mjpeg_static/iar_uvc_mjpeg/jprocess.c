@@ -18,10 +18,17 @@
 //uint8_t outbytes0[20000] __attribute__ ((section(".ccm")));
 //uint8_t outbytes1[20000] __attribute__ ((section(".ccm")));
 
-#pragma location = ".ccmram"
-uint8_t outbytes0[32000];
-#pragma location = ".ccmram"
-uint8_t outbytes1[32000];
+#ifdef __CC_ARM
+	#warning "Check buffer placement"
+	// Make separate file with buffers and place in IRAM2 region
+	uint8_t outbytes0[32000] __attribute__ ((at(0x10000000)));
+	uint8_t outbytes1[32000] __attribute__ ((at(0x10008000)));
+#else
+	#pragma location = ".ccmram"
+	uint8_t outbytes0[32000];
+	#pragma location = ".ccmram"
+	uint8_t outbytes1[32000];
+#endif
 
 uint8_t *write_pointer = (uint8_t*)&outbytes0;//сюда записываются закодированные jpeg данные (кодером)
 uint8_t *read_pointer =  (uint8_t*)&outbytes1;//отсода данные считываются при передаче
@@ -667,7 +674,9 @@ __x_z UINT8 *z_and_q(UREG __bs_buf, UREG __bs_bit, UINT8 *__bs_bytep, const unsi
 	}
 	//while(r > 15)                 /* If run-length > 15, time for  */
 	goto L1;
-#pragma diag_suppress=Pe128
+#ifndef __CC_ARM
+	#pragma diag_suppress=Pe128
+#endif
 	do
 	{                           /* Run-length extension */
 	  _WRITE_BITS_N(11,0x07F9); //240 -> code 0x7F9, size 11
@@ -675,7 +684,9 @@ __x_z UINT8 *z_and_q(UREG __bs_buf, UREG __bs_bit, UINT8 *__bs_bytep, const unsi
 	L1:;
 	}
 	while(r > 15);
-#pragma diag_default=Pe128	
+#ifndef __CC_ARM
+	#pragma diag_default=Pe128	
+#endif
 	ii = 16*r + ssss;              /* Now we can find code byte */
 	r = 0;
 	EncodeHuffman(huff_ac,ii);             /* Encode RLE code */
@@ -716,7 +727,9 @@ void process_quadro_block(UINT8 *start_pointer)//pointer - upper left pixel
 
     for (i=0;i<(DCTSIZE*DCTSIZE);i++){
       dct_data[i] = 0;
+#ifndef __CC_ARM
       asm("nop");//do not remove - protection from optimization
+#endif
     }//clean for chroma
     outbytes_p=z_and_q(bitstream_byte,bitstream_bit,outbytes_p,(unsigned int *)z_q,1);//cb
     outbytes_p=z_and_q(bitstream_byte,bitstream_bit,outbytes_p,(unsigned int *)z_q,1);//cr
